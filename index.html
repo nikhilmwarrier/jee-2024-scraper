@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <link
+            rel="stylesheet"
+            href="https://cdn.jsdelivr.net/npm/@picocss/pico@1/css/pico.min.css"
+        />
+        <title>JEE Scorecard Generator</title>
+        <script defer src="./modal.js"></script>
+        <script defer src="./app.js"></script>
+        <style>
+            li {
+                margin-top: 2rem;
+            }
+            textarea,
+            select {
+                margin-top: 1rem;
+            }
+            dialog article {
+                width: 80ch;
+            }
+            .shift span,
+            .score span {
+                font-weight: bold;
+            }
+        </style>
+    </head>
+    <body>
+        <main class="container">
+            <h1>JEE Scorecard Generator</h1>
+            <form id="main-form">
+                <ul>
+                    <li>
+                        <strong>Step 1:</strong> Select your shift
+                        <select id="shift" name="shift" required>
+                            <option value="27s2">27 Jan 2024 Shift 2</option>
+                            <option value="01s2">01 Feb 2024 Shift 2</option>
+                        </select>
+                    </li>
+                    <li>
+                        <strong>Step 2:</strong> Copy the script and paste it in
+                        DevTools to get your responses:
+                        <br />
+
+                        <br />
+                        <textarea
+                            id="scriptarea"
+                            style="
+                                opacity: 0;
+                                height: 0;
+                                width: 0;
+                                position: fixed;
+                                bottom: 0;
+                            "
+                            cols="1"
+                            rows="1"
+                        >
+                <!-- #region -->
+                const tables = document.querySelectorAll(".menu-tbl");
+                const data = {};
+                
+                tables.forEach((table, i) => {
+                    const qnType = table.querySelectorAll("tr td.bold")[0].innerText.trim(); // "MCQ || "SA"
+                    const qnID = table.querySelectorAll("tr td.bold")[1].innerText.trim();
+                
+                    if (qnType === "MCQ") {
+                        const hasAnswered =
+                            table.querySelectorAll("tr td.bold")[6].innerText.trim() ===
+                            "Answered"
+                                ? true
+                                : false;
+                        if (hasAnswered) {
+                            let options = [0, 0, 0, 0];
+                            for (let j = 0; j < 4; j++) {
+                                options[j] = Number(
+                                    table.querySelectorAll("tr td.bold")[2 + j].innerText
+                                );
+                            }
+                
+                            const ownAnswerIndex =
+                                Number(
+                                    table.querySelectorAll("tr td.bold")[7].innerText.trim()
+                                ) - 1;
+                            const ownAnswerID = options[ownAnswerIndex];
+                
+                            options.sort(); // doing the stuff NTA should've done
+                
+                            const ownAnswer = options.indexOf(ownAnswerID) + 1;
+                
+                            data[qnID] = {
+                                qnType,
+                                hasAnswered,
+                                options,
+                                ownAnswer,
+                                ownAnswerID,
+                            };
+                        } else {
+                            data[qnID] = { qnType, hasAnswered };
+                        }
+                    } else if (qnType === "SA") {
+                        const hasAnswered =
+                            table.querySelectorAll("tr td.bold")[2].innerText.trim() ===
+                            "Answered"
+                                ? true
+                                : false;
+                        if (hasAnswered) {
+                            const ownAnswer = document
+                                .querySelectorAll(".questionRowTbl")
+                                [i].querySelector("tr:nth-of-type(5) td.bold").innerText; // very ugly query, ik
+                
+                            data[qnID] = {
+                                qnType,
+                                hasAnswered,
+                                ownAnswer,
+                            };
+                        } else {
+                            data[qnID] = { qnType, hasAnswered };
+                        }
+                    }
+                });
+                
+                const generatedJSON = JSON.stringify(data, null, 2);
+                console.log(generatedJSON);
+                
+                <!-- #endregion -->
+                </textarea
+                        >
+
+                        <button
+                            class="secondary"
+                            onclick="copyScript()"
+                            type="button"
+                        >
+                            Copy script
+                        </button>
+                    </li>
+                    <li>
+                        <strong>Step 3:</strong> Paste the output from the
+                        script here:
+                        <br />
+                        <textarea
+                            required
+                            name="responses"
+                            id="responses"
+                            Submit
+                            cols="80"
+                            rows="10"
+                            placeholder="Paste output here..."
+                        ></textarea>
+                    </li>
+                    <li>
+                        <strong>Step 4:</strong> You're done!
+                        <br />
+                        <br />
+                        <button
+                            type="submit"
+                            data-target="modal-example"
+                            onclick="toggleModal(event)"
+                        >
+                            Get scorecard
+                        </button>
+                    </li>
+                </ul>
+            </form>
+
+            <!-- Modal -->
+            <dialog id="modal-example">
+                <article>
+                    <a
+                        href="#close"
+                        aria-label="Close"
+                        class="close"
+                        data-target="modal-example"
+                        onClick="toggleModal(event)"
+                    >
+                    </a>
+                    <h3>Your JEE score</h3>
+                    <div id="result">
+                        <p class="shift">Shift: <span></span></p>
+                        <p class="score">Your score: <span></span></p>
+                        <h4>Question stats:</h4>
+                        <table>
+                            <tbody>
+                                <tr>
+                                    <td>Attempted</td>
+                                    <td class="attempted"></td>
+                                </tr>
+                                <tr>
+                                    <td>Correct</td>
+                                    <td class="correct"></td>
+                                </tr>
+                                <tr>
+                                    <td>Incorrect</td>
+                                    <td class="incorrect"></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <footer>
+                        <a
+                            href="#confirm"
+                            role="button"
+                            data-target="modal-example"
+                            onClick="toggleModal(event)"
+                        >
+                            Done
+                        </a>
+                    </footer>
+                </article>
+            </dialog>
+        </main>
+    </body>
+</html>
