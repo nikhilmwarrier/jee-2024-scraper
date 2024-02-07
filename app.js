@@ -21,17 +21,26 @@ function compareAnswers(nta, user, shift) {
     let correct = 0;
     let incorrect = 0;
     let skipped = 0;
+    let errorInKeys = [];
     for (const key in nta) {
         const ntaAns = Number(`${nta[key]}`.trim());
-        const ownAns = Number(`${user[key].ownAnswer}`.trim());
-        if (!ownAns) {
-            skipped += 1;
-        } else if (ntaAns === ownAns) {
-            correct += 1;
-        } else {
-            incorrect += 1;
-            // console.log(nta[key], user[key].ownAnswer);
-        }
+        if (user.hasOwnProperty(key)) {
+            if (user[key].hasOwnProperty("ownAnswer")) {
+                const ownAns = Number(`${user[key].ownAnswer}`.trim());
+                if (ntaAns === ownAns) {
+                    correct += 1;
+                } else {
+                    incorrect += 1;
+                    // console.log(nta[key], user[key].ownAnswer);
+                }
+            } else {
+                skipped += 1;
+            }
+        } else errorInKeys.push(key);
+    }
+    if (errorInKeys.length > 0) {
+        alert("Error in keys:\n" + errorInKeys.toString());
+        errorInKeys = [];
     }
     generateScorecard(correct, incorrect, shift);
 }
