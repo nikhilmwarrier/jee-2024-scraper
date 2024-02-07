@@ -136,7 +136,7 @@ tables.forEach((table, i) => {
     if (qnType === "MCQ") {
         const hasAnswered =
             table.querySelectorAll("tr td.bold")[6].innerText.trim() ===
-            "Answered"
+            "Answered" ||  table.querySelectorAll("tr td.bold")[6].innerText.trim() === "Marked For Review"
                 ? true
                 : false;
         if (hasAnswered) {
