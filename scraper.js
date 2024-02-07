@@ -1,4 +1,3 @@
-<!-- #region -->
 const tables = document.querySelectorAll(".menu-tbl");
 const data = {};
 
@@ -7,12 +6,13 @@ tables.forEach((table, i) => {
     const qnID = table.querySelectorAll("tr td.bold")[1].innerText.trim();
 
     if (qnType === "MCQ") {
-        let hasAnswered = false
-        const status2 = table.querySelectorAll("tr td.bold")[6].innerText.trim()
+        let hasAnswered = false;
+        const status2 = table
+            .querySelectorAll("tr td.bold")[6]
+            .innerText.trim();
         if (status2 === "Answered" || status2 === "Marked For Review") {
             hasAnswered = true;
         }
-
 
         if (hasAnswered) {
             let options = [0, 0, 0, 0];
@@ -68,7 +68,3 @@ tables.forEach((table, i) => {
 
 const generatedJSON = JSON.stringify(data, null, 2);
 console.log(generatedJSON);
-
-                
-                <!-- #endregion -->
-                
