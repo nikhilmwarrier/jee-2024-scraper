@@ -40,8 +40,38 @@
                         </select>
                     </li>
                     <li>
-                        <strong>Step 2:</strong> Copy the script and paste it in
-                        DevTools to get your responses:
+                        <strong>Step 2:</strong>
+                        <ul>
+                            <li>
+                                Copy this script
+                                <br /><br />
+                                <button
+                                    class="secondary"
+                                    onclick="copyScript()"
+                                    type="button"
+                                >
+                                    Copy script
+                                </button>
+                            </li>
+                            <li>Open your response sheet page</li>
+                            <li>
+                                Open Developer Tools (Right-click > Inspect)
+                            </li>
+                            <li>Go to the Console tab</li>
+                            <li>
+                                Paste and hit enter (If you see a warning, type
+                                <code>allow pasting</code> and hit enter first,
+                                and then paste the script)
+                            </li>
+                            <li>
+                                Copy the output
+                                <br />
+                                (Firefox: Right-click > Copy Object)
+                                <br />
+                                (Chrome etc: Hover over the output and click on
+                                "Copy")
+                            </li>
+                        </ul>
                         <br />
 
                         <br />
@@ -127,14 +157,6 @@
                 <!-- #endregion -->
                 </textarea
                         >
-
-                        <button
-                            class="secondary"
-                            onclick="copyScript()"
-                            type="button"
-                        >
-                            Copy script
-                        </button>
                     </li>
                     <li>
                         <strong>Step 3:</strong> Paste the output from the
