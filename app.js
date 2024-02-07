@@ -30,7 +30,7 @@ function compareAnswers(nta, user, shift) {
             correct += 1;
         } else {
             incorrect += 1;
-            console.log(nta[key], user[key].ownAnswer);
+            // console.log(nta[key], user[key].ownAnswer);
         }
     }
     generateScorecard(correct, incorrect, shift);
