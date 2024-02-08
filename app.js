@@ -1,3 +1,11 @@
+let branch = "main";
+if (window.location.hostname.includes("--")) {
+    branch = window.location.hostname.split("--")[0];
+}
+document.getElementById(
+    "scraper-link"
+).href = `https://github.com/nikhilmwarrier/jee-2024-scraper/blob/${branch}/scraper.js`;
+
 const form = document.getElementById("main-form");
 form.addEventListener("submit", async e => {
     e.preventDefault();
