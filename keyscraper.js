@@ -15,4 +15,7 @@ for (const line of lines) {
 
 // Convert the extracted data array to JSON format
 const jsonData = JSON.stringify(extractedData, null, 2); // Display the JSON data
-console.log(jsonData);
+
+// Open the output in a new tab
+const newTab = window.open();
+newTab.document.write('<pre>' + jsonData + '</pre>');
