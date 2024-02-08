@@ -148,10 +148,7 @@ tables.forEach((table, i) => {
         if(status2 !== "--") {
             hasAnswered = true;
         }
-        // if (status2 === "Answered" || status2 === "Marked For Review") {
-        //     hasAnswered = true;
-        // }
-
+                            
         if (hasAnswered) {
             let options = [0, 0, 0, 0];
             for (let j = 0; j < 4; j++) {
@@ -182,7 +179,7 @@ tables.forEach((table, i) => {
         }
     } else if (qnType === "SA") {
         let hasAnswered = false;
-        const ownAnswer = document                .querySelectorAll(".questionRowTbl")
+        const ownAnswer = document.querySelectorAll(".questionRowTbl")
                 [i].querySelector("tr:nth-of-type(5) td.bold").innerText
         
         if (ownAnswer !== "--") {
