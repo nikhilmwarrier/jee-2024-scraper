@@ -22,16 +22,21 @@ function compareAnswers(nta, user, shift) {
     let incorrect = 0;
     let skipped = 0;
     let errorInKeys = [];
+    let incorrectArray = [];
     for (const key in nta) {
         const ntaAns = Number(`${nta[key]}`.trim());
         if (user.hasOwnProperty(key)) {
-            if (user[key]['hasAnswered']) {
+            if (user[key]["hasAnswered"]) {
                 const ownAns = Number(`${user[key].ownAnswer}`.trim());
                 if (ntaAns === ownAns) {
                     correct += 1;
                 } else {
                     incorrect += 1;
-                    // console.log(nta[key], user[key].ownAnswer);
+                    incorrectArray.push({
+                        qnID: key,
+                        ownAns,
+                        ntaAns,
+                    });
                 }
             } else {
                 skipped += 1;
@@ -42,23 +47,32 @@ function compareAnswers(nta, user, shift) {
         alert("Error in keys:\n" + errorInKeys.toString());
         errorInKeys = [];
     }
-    generateScorecard(correct, incorrect, shift);
+    generateScorecard(correct, incorrect, incorrectArray, shift);
 }
 
-function generateScorecard(correct, incorrect, shift) {
+function generateScorecard(correct, incorrect, incorrectArray, shift) {
     console.log(1);
     const resultDiv = document.getElementById("result");
     const shiftEl = resultDiv.querySelector(".shift span");
     const scoreEl = resultDiv.querySelector(".score span");
-    const attemptedEl = resultDiv.querySelector("table .attempted");
-    const correctEl = resultDiv.querySelector("table .correct");
-    const incorrectEl = resultDiv.querySelector("table .incorrect");
+    const attemptedEl = resultDiv.querySelector("#stats .attempted");
+    const correctEl = resultDiv.querySelector("#stats .correct");
+    const incorrectEl = resultDiv.querySelector("#stats .incorrect");
 
     shiftEl.innerText = shift;
     scoreEl.innerText = calculateScore(correct, incorrect);
     attemptedEl.innerText = correct + incorrect;
     correctEl.innerText = correct;
     incorrectEl.innerText = incorrect;
+
+    const incorrectQnsTable = resultDiv.querySelector("#incorrectQns");
+    incorrectArray.forEach(qn => {
+        const row = document.createElement("tr");
+        row.innerHTML = `<td>${qn.qnID}</td>
+        <td>${qn.ownAns}</td>
+        <td>${qn.ntaAns}</td>`;
+        incorrectQnsTable.appendChild(row);
+    });
 }
 
 function calculateScore(correct, incorrect) {

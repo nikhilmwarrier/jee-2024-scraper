@@ -258,7 +258,7 @@ console.log(generatedJSON);
                         <p class="shift">Shift: <span></span></p>
                         <p class="score">Your score: <span></span></p>
                         <h4>Question stats:</h4>
-                        <table>
+                        <table id="stats">
                             <tbody>
                                 <tr>
                                     <td>Attempted</td>
@@ -271,6 +271,16 @@ console.log(generatedJSON);
                                 <tr>
                                     <td>Incorrect</td>
                                     <td class="incorrect"></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <h4>Incorrect Questions</h4>
+                        <table id="incorrectQns">
+                            <tbody>
+                                <tr>
+                                    <th>Question ID</th>
+                                    <th>Your Answer</th>
+                                    <th>NTA Answer</th>
                                 </tr>
                             </tbody>
                         </table>
