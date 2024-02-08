@@ -25,7 +25,7 @@ function compareAnswers(nta, user, shift) {
     for (const key in nta) {
         const ntaAns = Number(`${nta[key]}`.trim());
         if (user.hasOwnProperty(key)) {
-            if (user[key].hasOwnProperty("ownAnswer")) {
+            if (user[key]['hasAnswered']) {
                 const ownAns = Number(`${user[key].ownAnswer}`.trim());
                 if (ntaAns === ownAns) {
                     correct += 1;
