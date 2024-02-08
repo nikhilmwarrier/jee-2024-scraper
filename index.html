@@ -144,11 +144,11 @@ tables.forEach((table, i) => {
         const status2 = table
             .querySelectorAll("tr td.bold")[7]
             .innerText.trim();
-        
-        if(status2 !== "--") {
+
+        if (status2 !== "--") {
             hasAnswered = true;
         }
-                            
+
         if (hasAnswered) {
             let options = [0, 0, 0, 0];
             for (let j = 0; j < 4; j++) {
@@ -161,33 +161,28 @@ tables.forEach((table, i) => {
                 Number(
                     table.querySelectorAll("tr td.bold")[7].innerText.trim()
                 ) - 1;
-            const ownAnswerID = options[ownAnswerIndex];
-
-            options.sort(); // doing the stuff NTA should've done
-
-            const ownAnswer = options.indexOf(ownAnswerID) + 1;
+            const ownAnswer = options[ownAnswerIndex];
 
             data[qnID] = {
                 qnType,
                 hasAnswered,
                 options,
                 ownAnswer,
-                ownAnswerID,
             };
         } else {
             data[qnID] = { qnType, hasAnswered };
         }
     } else if (qnType === "SA") {
         let hasAnswered = false;
-        const ownAnswer = document.querySelectorAll(".questionRowTbl")
-                [i].querySelector("tr:nth-of-type(5) td.bold").innerText
-        
+        const ownAnswer = document
+            .querySelectorAll(".questionRowTbl")
+            [i].querySelector("tr:nth-of-type(5) td.bold").innerText;
+
         if (ownAnswer !== "--") {
             hasAnswered = true;
         }
 
         if (hasAnswered) {
-
             data[qnID] = {
                 qnType,
                 hasAnswered,
@@ -201,6 +196,7 @@ tables.forEach((table, i) => {
 
 const generatedJSON = JSON.stringify(data, null, 2);
 console.log(generatedJSON);
+                        
                 
                 </textarea
                         >
@@ -234,7 +230,7 @@ console.log(generatedJSON);
                 </ul>
                 <p>
                     Disclaimer: This program and the answer key json files may
-                    contain bugs, so don't take your scores
+                    contain bugs, so don't take these scores
                     <em>too</em> seriously. Wait for NTA's result! <br />
                     Also, the answer keys are based on the ones NTA released on
                     6 Feb 2024. They almost certainly will contain mistakes
