@@ -142,12 +142,13 @@ tables.forEach((table, i) => {
     if (qnType === "MCQ") {
         let hasAnswered = false;
         const status2 = table
-            .querySelectorAll("tr td.bold")[6]
+            .querySelectorAll("tr td.bold")[7]
             .innerText.trim();
-        if (status2 === "Answered" || status2 === "Marked For Review") {
+        
+        if(status2 !== "--") {
             hasAnswered = true;
         }
-
+                            
         if (hasAnswered) {
             let options = [0, 0, 0, 0];
             for (let j = 0; j < 4; j++) {
@@ -178,16 +179,14 @@ tables.forEach((table, i) => {
         }
     } else if (qnType === "SA") {
         let hasAnswered = false;
-        const status = table.querySelectorAll("tr td.bold")[2].innerText.trim();
-
-        if (status === "Answered" || status === "Marked For Review") {
+        const ownAnswer = document.querySelectorAll(".questionRowTbl")
+                [i].querySelector("tr:nth-of-type(5) td.bold").innerText
+        
+        if (ownAnswer !== "--") {
             hasAnswered = true;
         }
 
         if (hasAnswered) {
-            const ownAnswer = document
-                .querySelectorAll(".questionRowTbl")
-                [i].querySelector("tr:nth-of-type(5) td.bold").innerText; // very ugly query, ik
 
             data[qnID] = {
                 qnType,
