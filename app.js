@@ -1,3 +1,5 @@
+import parsePDF from "./parsePDF.js";
+
 let branch = "main";
 if (window.location.hostname.includes("--")) {
     branch = window.location.hostname.split("--")[0];
@@ -6,26 +8,41 @@ document.getElementById(
     "scraper-link"
 ).href = `https://github.com/nikhilmwarrier/jee-2024-scraper/blob/${branch}/scraper.js`;
 
-const form = document.getElementById("main-form");
-form.addEventListener("submit", async e => {
+const mainForm = document.getElementById("main-form");
+mainForm.addEventListener("submit", async e => {
     e.preventDefault();
+    getFormData(mainForm);
+});
+
+const pdfForm = document.getElementById("pdf-form");
+pdfForm.addEventListener("submit", e => {
+    e.preventDefault();
+    getFormData(pdfForm);
+});
+
+async function getFormData(form) {
     const formData = new FormData(form);
     const shift = formData.get("shift");
-    const fetchedResponse = await fetch("./keys/" + shift + ".json");
-    const ntaAnswers = await fetchedResponse.json();
-    // console.log(1);
-    // console.log(ntaAnswers);
+
     try {
-        const responses = JSON.parse(formData.get("responses"));
-        // console.log(responses);
-        compareAnswers(ntaAnswers, responses, shift);
+        let responses = {};
+        if (form.id === "main-form") {
+            responses = JSON.parse(formData.get("responses"));
+            compareAnswers(responses, shift);
+        } else if (form.id === "pdf-form") {
+            responses = await parsePDF();
+            await compareAnswers(responses, shift);
+        }
     } catch (err) {
         console.error("JSONError:", err);
         alert("Error while parsing JSON. See console for more details.");
     }
-});
+}
 
-function compareAnswers(nta, user, shift) {
+async function compareAnswers(user, shift) {
+    const fetchedResponse = await fetch("./keys/" + shift + ".json");
+    const nta = await fetchedResponse.json();
+
     let overallCorrect = 0;
     let overallIncorrect = 0;
     let overallSkipped = 0;
@@ -35,14 +52,14 @@ function compareAnswers(nta, user, shift) {
         0: 0, // 0 = Maths
         1: 0, // 1 = Physics
         2: 0, // 2 = Chem
-    }
+    };
     let incorrect = {
         0: 0, // 0 = Maths
         1: 0, // 1 = Physics
         2: 0, // 2 = Chem
-    }
+    };
 
-    const firstKey = Object.keys(nta).sort((a, b) => a - b)[0]
+    const firstKey = Object.keys(nta).sort((a, b) => a - b)[0];
     let incorrectArray = [];
 
     for (const key in nta) {
@@ -63,7 +80,6 @@ function compareAnswers(nta, user, shift) {
                         ownAns,
                         ntaAns,
                     });
-
                 }
             } else {
                 overallSkipped += 1;
@@ -74,11 +90,14 @@ function compareAnswers(nta, user, shift) {
         alert("Error in keys:\n" + errorInKeys.toString());
         errorInKeys = [];
     }
-    generateScorecard(overallCorrect, overallIncorrect, shift, [correct, incorrect, incorrectArray]);
+    generateScorecard(overallCorrect, overallIncorrect, shift, [
+        correct,
+        incorrect,
+        incorrectArray,
+    ]);
 }
 
 function generateScorecard(overallCorrect, overallIncorrect, shift, allData) {
-    console.log(1);
     const resultDiv = document.getElementById("result");
     const shiftEl = resultDiv.querySelector(".shift span");
     const scoreEl = resultDiv.querySelector(".score span");
@@ -95,15 +114,22 @@ function generateScorecard(overallCorrect, overallIncorrect, shift, allData) {
     totalScoreEl.innerText = calculateScore(overallCorrect, overallIncorrect);
 
     const subjects = {
-        "maths": 0,
-        "phy": 1,
-        "chem": 2
-    }
+        maths: 0,
+        phy: 1,
+        chem: 2,
+    };
     for (const key in subjects) {
-        resultDiv.querySelector(`#stats .attempted-${key}`).innerText = allData[0][subjects[key]] + allData[1][subjects[key]]
-        resultDiv.querySelector(`#stats .correct-${key}`).innerText = allData[0][subjects[key]]
-        resultDiv.querySelector(`#stats .incorrect-${key}`).innerText = allData[1][subjects[key]]
-        resultDiv.querySelector(`#stats .score-${key}`).innerText = calculateScore(allData[0][subjects[key]], allData[1][subjects[key]])
+        resultDiv.querySelector(`#stats .attempted-${key}`).innerText =
+            allData[0][subjects[key]] + allData[1][subjects[key]];
+        resultDiv.querySelector(`#stats .correct-${key}`).innerText =
+            allData[0][subjects[key]];
+        resultDiv.querySelector(`#stats .incorrect-${key}`).innerText =
+            allData[1][subjects[key]];
+        resultDiv.querySelector(`#stats .score-${key}`).innerText =
+            calculateScore(
+                allData[0][subjects[key]],
+                allData[1][subjects[key]]
+            );
     }
 
     const incorrectQnsTable = resultDiv.querySelector("#incorrectQns");
