@@ -37,7 +37,7 @@ function compareAnswers(nta, user, shift) {
     for (const key in nta) {
         const ntaAns = Number(`${nta[key]}`.trim());
         const subject = Math.floor((key % firstKey) / 30);
-        console.log(subject)
+        // console.log(subject)
         if (user.hasOwnProperty(key)) {
             if (user[key]['hasAnswered']) {
                 const ownAns = Number(`${user[key].ownAnswer}`.trim());
