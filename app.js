@@ -44,7 +44,7 @@ function compareAnswers(nta, user, shift) {
 
     const firstKey = Object.keys(nta).sort((a, b) => a - b)[0]
     let incorrectArray = [];
-  
+
     for (const key in nta) {
         const ntaAns = Number(`${nta[key]}`.trim());
         const subject = Math.floor((key % firstKey) / 30);
@@ -74,7 +74,7 @@ function compareAnswers(nta, user, shift) {
         alert("Error in keys:\n" + errorInKeys.toString());
         errorInKeys = [];
     }
-     generateScorecard(overallCorrect, overallIncorrect, shift, [correct, incorrect, incorrectArray]);
+    generateScorecard(overallCorrect, overallIncorrect, shift, [correct, incorrect, incorrectArray]);
 }
 
 function generateScorecard(overallCorrect, overallIncorrect, shift, allData) {
@@ -94,7 +94,7 @@ function generateScorecard(overallCorrect, overallIncorrect, shift, allData) {
     incorrectEl.innerText = overallIncorrect;
     totalScoreEl.innerText = calculateScore(overallCorrect, overallIncorrect);
 
-     const subjects = {
+    const subjects = {
         "maths": 0,
         "phy": 1,
         "chem": 2
@@ -105,9 +105,9 @@ function generateScorecard(overallCorrect, overallIncorrect, shift, allData) {
         resultDiv.querySelector(`#stats .incorrect-${key}`).innerText = allData[1][subjects[key]]
         resultDiv.querySelector(`#stats .score-${key}`).innerText = calculateScore(allData[0][subjects[key]], allData[1][subjects[key]])
     }
-  
+
     const incorrectQnsTable = resultDiv.querySelector("#incorrectQns");
-    incorrectArray.forEach(qn => {
+    allData[2].forEach(qn => {
         const row = document.createElement("tr");
         row.innerHTML = `<td>${qn.qnID}</td>
         <td>${qn.ownAns}</td>
