@@ -1,137 +1,145 @@
 <!DOCTYPE html>
 <html lang="en">
-    <head>
-        <meta charset="UTF-8" />
-        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <link
-            rel="stylesheet"
-            href="https://cdn.jsdelivr.net/npm/@picocss/pico@1/css/pico.min.css"
-        />
-        <title>JEE Scorecard Generator</title>
-        <script
-            data-goatcounter="https://nikhilmwarrier.goatcounter.com/count"
-            async
-            src="//gc.zgo.at/count.js"
-        ></script>
-        <script defer src="./modal.js"></script>
-        <script defer src="./app.js"></script>
-        <style>
-            li {
-                margin-top: 2rem;
-            }
-            textarea,
-            select {
-                margin-top: 1rem;
-            }
-            dialog article {
-                width: 80ch;
-            }
-            .shift span,
-            .score span {
-                font-weight: bold;
-            }
-        </style>
-    </head>
-    <body>
-        <main class="container">
-            <h1>JEE Scorecard Generator</h1>
-            <form id="main-form">
-                <ul>
-                    <li>
-                        <strong>Step 1:</strong> Select your shift
-                        <select id="shift" name="shift" required>
-                            <option value="27s1">
-                                27 Jan 2024 Shift 1 (thx u/Responsible-You2347)
-                            </option>
-                            <option value="27s2">
-                                27 Jan 2024 Shift 2 (by yours truly)
-                            </option>
-                            <option value="29s1">
-                                29 Jan 2024 Shift 1 (thx u/Brave-Economist-7005)
-                            </option>
-                            <option value="29s2">
-                                29 Jan 2024 Shift 2 (thx u/TitaniumDEVIL)
-                            </option>
-                            <option value="30s1">
-                                30 Jan 2024 Shift 1 <em>(thx u/Mystic1869)</em>
-                            </option>
-                            <option value="30s2">
-                                30 Jan 2024 Shift 2
-                                <em>(thx u/deceptivesiteahead)</em>
-                            </option>
-                            <option value="31s1">
-                                31 Jan 2024 Shift 1
-                                <em>(thx u/potter_k)</em>
-                            </option>
-                            <option value="31s2">
-                                31 Jan 2024 Shift 2
-                                <em>(thx u/iamdarknight)</em>
-                            </option>
-                            <option value="01s1">
-                                01 Feb 2024 Shift 1 (thx u/YashvardanVkr)
-                            </option>
 
-                            <option value="01s2">
-                                01 Feb 2024 Shift 2 (thx u/VicFic18)
-                            </option>
-                        </select>
-                    </li>
-                    <li>
-                        <strong>Step 2:</strong>
-                        <ul>
-                            <li>
-                                Copy this script
-                                <br /><br />
-                                <button
-                                    class="secondary"
-                                    onclick="copyScript()"
-                                    type="button"
-                                >
-                                    Copy script
-                                </button>
-                                <a
-                                    href="https://github.com/nikhilmwarrier/jee-2024-scraper/blob/main/scraper.js"
-                                    >(Copy from this page if the button is not
-                                    working)</a
-                                >
-                            </li>
-                            <li>
-                                Open your response sheet page (The NTA site,
-                                <strong>NOT</strong> the pdf)
-                            </li>
-                            <li>
-                                Open Developer Tools (Right-click > Inspect)
-                            </li>
-                            <li>Go to the Console tab</li>
-                            <li>
-                                Paste and hit enter (If you see a warning, type
-                                <code>allow pasting</code> and hit enter first,
-                                and then paste the script)
-                            </li>
-                            <li>
-                                Copy the output
-                                <br />
-                                (Firefox: Right-click > Copy Object)
-                                <br />
-                                (Chrome etc: Hover over the output and click on
-                                "Copy")
-                            </li>
-                        </ul>
-                        <br />
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@1/css/pico.min.css" />
+    <title>JEE Scorecard Generator</title>
+    <script data-goatcounter="https://nikhilmwarrier.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
+    <script defer src="./modal.js"></script>
+    <script defer src="./app.js"></script>
+    <style>
+    /* Colored Bar Styles */
+    .progress-bar {
+        height: 10px;
+        width: 100%;
+        background-color: #dc3545; /* Start with red background */
+        position: relative;
+        border-radius: 5px; /* Add border-radius for rounded edges */
+        overflow: hidden; /* Hide overflow to prevent sharp corners */
+    }
 
-                        <br />
-                        <textarea
-                            id="scriptarea"
-                            style="
+    .progress-bar .correct {
+        height: 100%;
+        background-color: #28a745; /* Green background for correct answers */
+        border-radius: 5px; /* Add border-radius for rounded edges */
+    }
+    /* Adjust the rest of your existing styles as needed */
+
+        li {
+            margin-top: 2rem;
+        }
+
+        li {
+            margin-top: 2rem;
+        }
+
+        textarea,
+        select {
+            margin-top: 1rem;
+        }
+
+        dialog article {
+            width: 80ch;
+        }
+
+        .shift span,
+        .score span {
+            font-weight: bold;
+        }
+    </style>
+</head>
+
+<body>
+    <main class="container">
+        <h1>JEE Scorecard Generator</h1>
+        <form id="main-form">
+            <ul>
+                <li>
+                    <strong>Step 1:</strong> Select your shift
+                    <select id="shift" name="shift" required>
+                        <option value="27s1">
+                            27 Jan 2024 Shift 1 (thx u/Responsible-You2347)
+                        </option>
+                        <option value="27s2">
+                            27 Jan 2024 Shift 2 (by yours truly)
+                        </option>
+                        <option value="29s1">
+                            29 Jan 2024 Shift 1 (thx u/Brave-Economist-7005)
+                        </option>
+                        <option value="29s2">
+                            29 Jan 2024 Shift 2 (thx u/TitaniumDEVIL)
+                        </option>
+                        <option value="30s1">
+                            30 Jan 2024 Shift 1 <em>(thx u/Mystic1869)</em>
+                        </option>
+                        <option value="30s2">
+                            30 Jan 2024 Shift 2
+                            <em>(thx u/deceptivesiteahead)</em>
+                        </option>
+                        <option value="31s1">
+                            31 Jan 2024 Shift 1
+                            <em>(thx u/potter_k)</em>
+                        </option>
+                        <option value="31s2">
+                            31 Jan 2024 Shift 2
+                            <em>(thx u/iamdarknight)</em>
+                        </option>
+                        <option value="01s1">
+                            01 Feb 2024 Shift 1 (thx u/YashvardanVkr)
+                        </option>
+
+                        <option value="01s2">
+                            01 Feb 2024 Shift 2 (thx u/VicFic18)
+                        </option>
+                    </select>
+                </li>
+                <li>
+                    <strong>Step 2:</strong>
+                    <ul>
+                        <li>
+                            Copy this script
+                            <br /><br />
+                            <button class="secondary" onclick="copyScript()" type="button">
+                                Copy script
+                            </button>
+                            <a href="https://github.com/nikhilmwarrier/jee-2024-scraper/blob/main/scraper.js">(Copy from
+                                this page if the button is not
+                                working)</a>
+                        </li>
+                        <li>
+                            Open your response sheet page (The NTA site,
+                            <strong>NOT</strong> the pdf)
+                        </li>
+                        <li>
+                            Open Developer Tools (Right-click > Inspect)
+                        </li>
+                        <li>Go to the Console tab</li>
+                        <li>
+                            Paste and hit enter (If you see a warning, type
+                            <code>allow pasting</code> and hit enter first,
+                            and then paste the script)
+                        </li>
+                        <li>
+                            Copy the output
+                            <br />
+                            (Firefox: Right-click > Copy Object)
+                            <br />
+                            (Chrome etc: Hover over the output and click on
+                            "Copy")
+                        </li>
+                    </ul>
+                    <br />
+
+                    <br />
+                    <textarea id="scriptarea" style="
                                 opacity: 0;
                                 height: 0;
                                 width: 0;
                                 position: fixed;
                                 bottom: 0;
-                            "
-                            cols="1"
-                            rows="1"
-                        >
+                            " cols="1" rows="1">
 const tables = document.querySelectorAll(".menu-tbl");
 const data = {};
 
@@ -202,98 +210,77 @@ tables.forEach((table, i) => {
 const generatedJSON = JSON.stringify(data, null, 2);
 console.log(generatedJSON);
                 
-                </textarea
-                        >
-                    </li>
-                    <li>
-                        <strong>Step 3:</strong> Paste the output from the
-                        script here:
-                        <br />
-                        <textarea
-                            required
-                            name="responses"
-                            id="responses"
-                            Submit
-                            cols="80"
-                            rows="10"
-                            placeholder="Paste output here..."
-                        ></textarea>
-                    </li>
-                    <li>
-                        <strong>Step 4:</strong> You're done!
-                        <br />
-                        <br />
-                        <button
-                            type="submit"
-                            data-target="modal-example"
-                            onclick="toggleModal(event)"
-                        >
-                            Get scorecard
-                        </button>
-                    </li>
-                </ul>
-                <p>
-                    Disclaimer: This program and the answer key json files may
-                    contain bugs, so don't take your scores
-                    <em>too</em> seriously. Wait for NTA's result! <br />
-                    Also, the answer keys are based on the ones NTA released on
-                    6 Feb 2024. They almost certainly will contain mistakes
-                    (because NTA :-/ )
-                </p>
-            </form>
+                </textarea>
+                </li>
+                <li>
+                    <strong>Step 3:</strong> Paste the output from the
+                    script here:
+                    <br />
+                    <textarea required name="responses" id="responses" Submit cols="80" rows="10"
+                        placeholder="Paste output here..."></textarea>
+                </li>
+                <li>
+                    <strong>Step 4:</strong> You're done!
+                    <br />
+                    <br />
+                    <button type="submit" data-target="modal-example" onclick="toggleModal(event)">
+                        Get scorecard
+                    </button>
+                </li>
+            </ul>
+            <p>
+                Disclaimer: This program and the answer key json files may
+                contain bugs, so don't take your scores
+                <em>too</em> seriously. Wait for NTA's result! <br />
+                Also, the answer keys are based on the ones NTA released on
+                6 Feb 2024. They almost certainly will contain mistakes
+                (because NTA :-/ )
+            </p>
+        </form>
 
-            <!-- Modal -->
-            <dialog id="modal-example">
-                <article>
-                    <a
-                        href="#close"
-                        aria-label="Close"
-                        class="close"
-                        data-target="modal-example"
-                        onClick="toggleModal(event)"
-                    >
+        <!-- Modal -->
+        <dialog id="modal-example">
+            <article>
+                <a href="#close" aria-label="Close" class="close" data-target="modal-example"
+                    onClick="toggleModal(event)">
+                </a>
+                <h3>Your JEE score</h3>
+                <div id="result">
+                    <!-- Colored Bar -->
+                    <div class="progress-bar"></div>
+                    <p class="shift">Shift: <span></span></p>
+                    <p class="score">Your score: <span></span></p>
+                    <h4>Question stats:</h4>
+                    <table>
+                        <tbody>
+                            <tr>
+                                <td>Attempted</td>
+                                <td class="attempted"></td>
+                            </tr>
+                            <tr>
+                                <td>Correct</td>
+                                <td class="correct"></td>
+                            </tr>
+                            <tr>
+                                <td>Incorrect</td>
+                                <td class="incorrect"></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <footer>
+                    <a href="#confirm" role="button" data-target="modal-example" onClick="toggleModal(event)">
+                        Done
                     </a>
-                    <h3>Your JEE score</h3>
-                    <div id="result">
-                        <p class="shift">Shift: <span></span></p>
-                        <p class="score">Your score: <span></span></p>
-                        <h4>Question stats:</h4>
-                        <table>
-                            <tbody>
-                                <tr>
-                                    <td>Attempted</td>
-                                    <td class="attempted"></td>
-                                </tr>
-                                <tr>
-                                    <td>Correct</td>
-                                    <td class="correct"></td>
-                                </tr>
-                                <tr>
-                                    <td>Incorrect</td>
-                                    <td class="incorrect"></td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                    <footer>
-                        <a
-                            href="#confirm"
-                            role="button"
-                            data-target="modal-example"
-                            onClick="toggleModal(event)"
-                        >
-                            Done
-                        </a>
-                    </footer>
-                </article>
-            </dialog>
-        </main>
-        <footer style="text-align: center">
-            Built by <a href="https://nikhilmwarrier.codeberg.page">nik</a>
-            <br />
-            <a href="https://github.com/nikhilmwarrier/jee-2024-scraper/"
-                >Source code</a
-            >
-        </footer>
-    </body>
+                </footer>
+            </article>
+        </dialog>
+    </main>
+    <footer style="text-align: center">
+        Built by <a href="https://nikhilmwarrier.codeberg.page">nik</a>
+        <br />
+        <a href="https://github.com/nikhilmwarrier/jee-2024-scraper/">Source code</a>
+    </footer>
+</body>
+
 </html>

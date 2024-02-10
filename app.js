@@ -54,12 +54,22 @@ function generateScorecard(correct, incorrect, shift) {
     const correctEl = resultDiv.querySelector("table .correct");
     const incorrectEl = resultDiv.querySelector("table .incorrect");
 
+    // Calculate the correct and incorrect ratios
+    const totalAttempted = correct + incorrect;
+    const correctRatio = (correct / totalAttempted) * 100;
+    const incorrectRatio = (incorrect / totalAttempted) * 100;
+
+    // Set the width of the green and red sections of the progress bar
+    const progressBar = resultDiv.querySelector(".progress-bar");
+    progressBar.innerHTML = `<div class="correct" style="width:${correctRatio}%;"></div>`;
+
     shiftEl.innerText = shift;
     scoreEl.innerText = calculateScore(correct, incorrect);
-    attemptedEl.innerText = correct + incorrect;
+    attemptedEl.innerText = totalAttempted;
     correctEl.innerText = correct;
     incorrectEl.innerText = incorrect;
 }
+
 
 function calculateScore(correct, incorrect) {
     return correct * 4 - incorrect;
