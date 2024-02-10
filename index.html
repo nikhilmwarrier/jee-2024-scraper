@@ -14,16 +14,28 @@
     .progress-bar {
         height: 10px;
         width: 100%;
-        background-color: #dc3545; /* Start with red background */
         position: relative;
         border-radius: 5px; /* Add border-radius for rounded edges */
         overflow: hidden; /* Hide overflow to prevent sharp corners */
     }
 
-    .progress-bar .correct {
+    .progress-bar .correct,
+    .progress-bar .incorrect,
+    .progress-bar .unattempted {
         height: 100%;
+        position: absolute;
+    }
+
+    .progress-bar .correct {
         background-color: #28a745; /* Green background for correct answers */
-        border-radius: 5px; /* Add border-radius for rounded edges */
+    }
+
+    .progress-bar .incorrect {
+        background-color: #dc3545; /* Red background for incorrect answers */
+    }
+
+    .progress-bar .unattempted {
+        background-color: #6c757d; /* Grey background for unattempted questions */
     }
     /* Adjust the rest of your existing styles as needed */
 
