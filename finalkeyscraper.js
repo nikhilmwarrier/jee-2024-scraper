@@ -6,7 +6,7 @@ Works but need logic to handle exceptions
 
 // Function to extract and simplify exam date
 function extractAndSimplifyExamDate(pageNumber) {
-    const examDateXPath = `/html/body/div[1]/div[2]/div[8]/div[2]/div[${pageNumber}]/div[4]/span[11]`;
+    const examDateXPath = `/html/body/div[1]/div[2]/div[8]/div[2]/div[${pageNumber}]/div[4]/span[2]`;
     const examDateElement = document.evaluate(examDateXPath, document, null, XPathResult.FIRST_ORDERED_NODE_TYPE, null).singleNodeValue;
 
     if (examDateElement) {
@@ -24,7 +24,7 @@ function extractAndSimplifyExamDate(pageNumber) {
 
 // Function to extract shift information
 function extractShift(pageNumber) {
-    const shiftXPath = `/html/body/div[1]/div[2]/div[8]/div[2]/div[${pageNumber}]/div[4]/span[13]`;
+    const shiftXPath = `/html/body/div[1]/div[2]/div[8]/div[2]/div[${pageNumber}]/div[4]/span[8]`;
     const shiftElement = document.evaluate(shiftXPath, document, null, XPathResult.FIRST_ORDERED_NODE_TYPE, null).singleNodeValue;
 
     if (shiftElement) {
@@ -69,42 +69,39 @@ function extractSubjectData(subjectXPath, initialX, pageNumber) {
 
 // Main function to output all data in JSON for all pages
 function outputAllDataInJSON() {
-    const totalPages = 10; // Adjust the total number of pages as needed
 
     const allData = [];
+    const pageNumber = 5;
+    const subjects = [
+        { xpath: `/html/body/div[1]/div[2]/div[8]/div[2]/div[${pageNumber}]/div[4]/span[15]`, initialX: 18 },
+        { xpath: `/html/body/div[1]/div[2]/div[8]/div[2]/div[${pageNumber}]/div[4]/span[108]`, initialX: 111 },
+        { xpath: `/html/body/div[1]/div[2]/div[8]/div[2]/div[${pageNumber}]/div[4]/span[201]`, initialX: 204 },
+    ];
 
-    for (let pageNumber = 1; pageNumber <= totalPages; pageNumber++) {
-        const subjects = [
-            { xpath: `/html/body/div[1]/div[2]/div[8]/div[2]/div[${pageNumber}]/div[4]/span[18]`, initialX: 23 },
-            { xpath: `/html/body/div[1]/div[2]/div[8]/div[2]/div[${pageNumber}]/div[4]/span[20]`, initialX: 113 },
-            { xpath: `/html/body/div[1]/div[2]/div[8]/div[2]/div[${pageNumber}]/div[4]/span[22]`, initialX: 203 },
-        ];
+    const simplifiedExamDate = extractAndSimplifyExamDate(pageNumber);
+    const shift = extractShift(pageNumber);
 
-        const simplifiedExamDate = extractAndSimplifyExamDate(pageNumber);
-        const shift = extractShift(pageNumber);
+    const pageData = subjects.map(subject => {
+        const subjectNameElement = document.evaluate(subject.xpath, document, null, XPathResult.FIRST_ORDERED_NODE_TYPE, null).singleNodeValue;
+        const subjectName = subjectNameElement ? subjectNameElement.textContent.trim() : null;
 
-        if (simplifiedExamDate !== null && shift !== null) {
-            const pageData = subjects.map(subject => {
-                const subjectNameElement = document.evaluate(subject.xpath, document, null, XPathResult.FIRST_ORDERED_NODE_TYPE, null).singleNodeValue;
-                const subjectName = subjectNameElement ? subjectNameElement.textContent.trim() : null;
+        const questionData = extractSubjectData(subject.xpath, subject.initialX, pageNumber);
 
-                const questionData = extractSubjectData(subject.xpath, subject.initialX, pageNumber);
-
-                if (questionData === null) {
-                    return null;
-                }
-
-                return {
-                    subjectName,
-                    questions: questionData,
-                };
-            });
-
-            if (!pageData.includes(null)) {
-                allData.push({ examDate: simplifiedExamDate, shift, subjects: pageData });
-            }
+        if (questionData === null) {
+            return null;
         }
+
+        return {
+            subjectName,
+            questions: questionData,
+        };
+    });
+
+    if (!pageData.includes(null)) {
+        allData.push({ examDate: simplifiedExamDate, shift, subjects: pageData });
     }
+
+
 
     console.log(JSON.stringify(allData, null, 2));
 }
