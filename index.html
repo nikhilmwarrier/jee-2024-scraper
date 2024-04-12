@@ -35,11 +35,7 @@
   <body>
     <main class="container">
       <h1>JEE Scorecard Generator</h1>
-      <h3>
-        (NOTE: Something's broken with the PDF parser and we're trying to figure
-        out what. Sorry :-P)
-      </h3>
-      <!-- 
+
       <details>
         <summary>Generate using NTA site</summary>
 
@@ -49,40 +45,74 @@
               <li>
                 <strong>Step 1:</strong> Select your shift
                 <select id="shift" name="shift" required>
-                  <option value="27s1">
-                    27 Jan 2024 Shift 1 (thx u/Different-Cycle9710)
-                  </option>
-                  <option value="27s2">
-                    27 Jan 2024 Shift 2 (by yours truly)
-                  </option>
+                  <optgroup label="Session 1">
+                    <option value="27s1">
+                      27 Jan 2024 Shift 1 (thx u/Different-Cycle9710)
+                    </option>
+                    <option value="27s2">
+                      27 Jan 2024 Shift 2 (by yours truly)
+                    </option>
 
-                  <option value="29s1">
-                    29 Jan 2024 Shift 1 (thx u/Aditya_Noob99)
-                  </option>
+                    <option value="29s1">
+                      29 Jan 2024 Shift 1 (thx u/Aditya_Noob99)
+                    </option>
 
-                  <option value="29s2">
-                    29 Jan 2024 Shift 2 (thx u/Get_mortdogged)
-                  </option>
+                    <option value="29s2">
+                      29 Jan 2024 Shift 2 (thx u/Get_mortdogged)
+                    </option>
 
-                  <option value="30s1">
-                    30 Jan 2024 Shift 1
-                    <em>(thx u/IamStonedRick)</em>
-                  </option>
+                    <option value="30s1">
+                      30 Jan 2024 Shift 1
+                      <em>(thx u/IamStonedRick)</em>
+                    </option>
 
-                  <option value="30s2">
-                    30 Jan 2024 Shift 2
-                    <em>(thx u/mimusops)</em>
-                  </option>
+                    <option value="30s2">
+                      30 Jan 2024 Shift 2
+                      <em>(thx u/mimusops)</em>
+                    </option>
 
-                  <option value="31s2">
-                    31 Jan 2024 Shift 2
-                    <em>(thx u/Devansh9201)</em>
-                  </option>
+                    <option value="31s2">
+                      31 Jan 2024 Shift 2
+                      <em>(thx u/Devansh9201)</em>
+                    </option>
 
-                  <option value="01s2">
-                    01 Feb 2024 Shift 2 (thx u/lol12145)
-                  </option>
-                  <option value="08s1">08 April 2024 Shift 1</option>
+                    <option value="01s2">
+                      01 Feb 2024 Shift 2 (thx u/lol12145)
+                    </option>
+                  </optgroup>
+                  <optgroup label="Session 2">
+                    <option value="04s1">
+                      04 April 2024 Shift 1 (thx u/Mystic1869)
+                    </option>
+                    <option value="04s2">
+                      04 April 2024 Shift 2 (thx u/Specialist-Monk-9507)
+                    </option>
+                    <option value="05s1">
+                      05 April 2024 Shift 1 (thx u/Mystic1869)
+                    </option>
+                    <option value="05s2">
+                      05 April 2024 Shift 2 (thx u/HrishikeshS123_)
+                    </option>
+                    <option value="06s1">
+                      06 April 2024 Shift 1 (thx u/deceptivesiteahead)
+                    </option>
+                    <option value="06s2">
+                      06 April 2024 Shift 2 (thx u/Global-Study-6308)
+                    </option>
+                    <option value="08s1">
+                      08 April 2024 Shift 1 (thank me lol)
+                    </option>
+                    <option value="08s2">
+                      08 April 2024 Shift 2 (thx u/NarcissismGod and
+                      u/Paramveer_singh )
+                    </option>
+                    <option value="09s1">
+                      09 April 2024 Shift 1 (thx u/tedmosbywtf)
+                    </option>
+                    <option value="09s2">
+                      09 April 2024 Shift 2 (thx u/tedmosbywtf)
+                    </option>
+                  </optgroup>
                 </select>
               </li>
               <li>
@@ -98,7 +128,10 @@
                     >
                       Copy script
                     </button>
-                    <a id="scraper-link" href="#">
+                    <a
+                      id="scraper-link"
+                      href="https://raw.githubusercontent.com/nikhilmwarrier/jee-2024-scraper/main/scraper.js"
+                    >
                       (Copy from this page if the button is not working)
                     </a>
                   </li>
@@ -230,107 +263,107 @@ console.log(generatedJSON);</textarea
             </ul>
           </form>
         </article>
-      </details> -->
+      </details>
 
-      <!-- <details>
-        <summary>Generate using response sheet PDF</summary> -->
-      <article>
-        <form id="pdf-form">
-          <ul>
-            <li>
-              <strong>Step 1:</strong> Select your shift
-              <select id="shift" name="shift" required>
-                <optgroup label="Session 1">
-                  <option value="27s1">
-                    27 Jan 2024 Shift 1 (thx u/Different-Cycle9710)
-                  </option>
-                  <option value="27s2">
-                    27 Jan 2024 Shift 2 (by yours truly)
-                  </option>
+      <details>
+        <summary>(Partially broken) Generate using response sheet PDF</summary>
+        <article>
+          <form id="pdf-form">
+            <ul>
+              <li>
+                <strong>Step 1:</strong> Select your shift
+                <select id="shift" name="shift" required>
+                  <optgroup label="Session 1">
+                    <option value="27s1">
+                      27 Jan 2024 Shift 1 (thx u/Different-Cycle9710)
+                    </option>
+                    <option value="27s2">
+                      27 Jan 2024 Shift 2 (by yours truly)
+                    </option>
 
-                  <option value="29s1">
-                    29 Jan 2024 Shift 1 (thx u/Aditya_Noob99)
-                  </option>
+                    <option value="29s1">
+                      29 Jan 2024 Shift 1 (thx u/Aditya_Noob99)
+                    </option>
 
-                  <option value="29s2">
-                    29 Jan 2024 Shift 2 (thx u/Get_mortdogged)
-                  </option>
+                    <option value="29s2">
+                      29 Jan 2024 Shift 2 (thx u/Get_mortdogged)
+                    </option>
 
-                  <option value="30s1">
-                    30 Jan 2024 Shift 1
-                    <em>(thx u/IamStonedRick)</em>
-                  </option>
+                    <option value="30s1">
+                      30 Jan 2024 Shift 1
+                      <em>(thx u/IamStonedRick)</em>
+                    </option>
 
-                  <option value="30s2">
-                    30 Jan 2024 Shift 2
-                    <em>(thx u/mimusops)</em>
-                  </option>
+                    <option value="30s2">
+                      30 Jan 2024 Shift 2
+                      <em>(thx u/mimusops)</em>
+                    </option>
 
-                  <option value="31s2">
-                    31 Jan 2024 Shift 2
-                    <em>(thx u/Devansh9201)</em>
-                  </option>
+                    <option value="31s2">
+                      31 Jan 2024 Shift 2
+                      <em>(thx u/Devansh9201)</em>
+                    </option>
 
-                  <option value="01s2">
-                    01 Feb 2024 Shift 2 (thx u/lol12145)
-                  </option>
-                </optgroup>
-                <optgroup label="Session 2">
-                  <option value="04s1">
-                    04 April 2024 Shift 1 (thx u/Mystic1869)
-                  </option>
-                  <option value="04s2">
-                    04 April 2024 Shift 2 (thx u/Specialist-Monk-9507)
-                  </option>
-                  <option value="05s1">
-                    05 April 2024 Shift 1 (thx u/Mystic1869)
-                  </option>
-                  <option value="05s2">
-                    05 April 2024 Shift 2 (thx u/HrishikeshS123_)
-                  </option>
-                  <option value="06s1">
-                    06 April 2024 Shift 1 (thx u/deceptivesiteahead)
-                  </option>
-                  <option value="06s2">
-                    06 April 2024 Shift 2 (thx u/Global-Study-6308)
-                  </option>
-                  <option value="08s1">
-                    08 April 2024 Shift 1 (thank me lol)
-                  </option>
-                  <option value="08s2">
-                    08 April 2024 Shift 2 (thx u/NarcissismGod and
-                    u/Paramveer_singh )
-                  </option>
-                  <option value="09s1">
-                    09 April 2024 Shift 1 (thx u/tedmosbywtf)
-                  </option>
-                  <option value="09s2">
-                    09 April 2024 Shift 2 (thx u/tedmosbywtf)
-                  </option>
-                </optgroup>
-              </select>
-            </li>
-            <li>
-              <label for="file-selector">
-                <strong>Step 2:</strong> Select response sheet PDF
-                <input type="file" id="pdfFileInput" accept=".pdf" />
-              </label>
-            </li>
-            <li>
-              <strong>Step 3:</strong> You're done! <br />
-              <br />
-              <button
-                type="submit"
-                data-target="modal-example"
-                onclick="toggleModal(event)"
-              >
-                Generate Scorecard
-              </button>
-            </li>
-          </ul>
-        </form>
-      </article>
-      <!-- </details> -->
+                    <option value="01s2">
+                      01 Feb 2024 Shift 2 (thx u/lol12145)
+                    </option>
+                  </optgroup>
+                  <optgroup label="Session 2">
+                    <option value="04s1">
+                      04 April 2024 Shift 1 (thx u/Mystic1869)
+                    </option>
+                    <option value="04s2">
+                      04 April 2024 Shift 2 (thx u/Specialist-Monk-9507)
+                    </option>
+                    <option value="05s1">
+                      05 April 2024 Shift 1 (thx u/Mystic1869)
+                    </option>
+                    <option value="05s2">
+                      05 April 2024 Shift 2 (thx u/HrishikeshS123_)
+                    </option>
+                    <option value="06s1">
+                      06 April 2024 Shift 1 (thx u/deceptivesiteahead)
+                    </option>
+                    <option value="06s2">
+                      06 April 2024 Shift 2 (thx u/Global-Study-6308)
+                    </option>
+                    <option value="08s1">
+                      08 April 2024 Shift 1 (thank me lol)
+                    </option>
+                    <option value="08s2">
+                      08 April 2024 Shift 2 (thx u/NarcissismGod and
+                      u/Paramveer_singh )
+                    </option>
+                    <option value="09s1">
+                      09 April 2024 Shift 1 (thx u/tedmosbywtf)
+                    </option>
+                    <option value="09s2">
+                      09 April 2024 Shift 2 (thx u/tedmosbywtf)
+                    </option>
+                  </optgroup>
+                </select>
+              </li>
+              <li>
+                <label for="file-selector">
+                  <strong>Step 2:</strong> Select response sheet PDF
+                  <input type="file" id="pdfFileInput" accept=".pdf" />
+                </label>
+              </li>
+              <li>
+                <strong>Step 3:</strong> You're done! <br />
+                <br />
+                <button
+                  type="submit"
+                  data-target="modal-example"
+                  onclick="toggleModal(event)"
+                >
+                  Generate Scorecard
+                </button>
+              </li>
+            </ul>
+          </form>
+        </article>
+      </details>
       <br /><br />
       <p>
         Disclaimer: This program and the answer key json files may contain bugs,

@@ -4,15 +4,15 @@ let branch = "main";
 if (window.location.hostname.includes("--")) {
   branch = window.location.hostname.split("--")[0];
 }
-// document.getElementById(
-//     "scraper-link"
-// ).href = `https://github.com/nikhilmwarrier/jee-2024-scraper/blob/${branch}/scraper.js`;
+document.getElementById(
+  "scraper-link"
+).href = `https://github.com/nikhilmwarrier/jee-2024-scraper/blob/${branch}/scraper.js`;
 
-// const mainForm = document.getElementById("main-form");
-// mainForm.addEventListener("submit", async e => {
-//   e.preventDefault();
-//   getFormData(mainForm);
-// });
+const mainForm = document.getElementById("main-form");
+mainForm.addEventListener("submit", async e => {
+  e.preventDefault();
+  getFormData(mainForm);
+});
 
 const pdfForm = document.getElementById("pdf-form");
 pdfForm.addEventListener("submit", e => {
@@ -69,6 +69,7 @@ async function compareAnswers(user, shift) {
     if (user.hasOwnProperty(key)) {
       if (user[key]["hasAnswered"]) {
         const ownAns = Number(`${user[key].ownAnswer}`.trim());
+        console.log(ownAns, ntaAns);
         if (ntaAns === ownAns) {
           overallCorrect += 1;
           correct[subject] += 1;
