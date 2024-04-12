@@ -10,11 +10,11 @@ tables.forEach((table, i) => {
         const status2 = table
             .querySelectorAll("tr td.bold")[7]
             .innerText.trim();
-        
-        if(status2 !== "--") {
+
+        if (status2 !== "--") {
             hasAnswered = true;
         }
-                            
+
         if (hasAnswered) {
             let options = [0, 0, 0, 0];
             for (let j = 0; j < 4; j++) {
@@ -27,33 +27,28 @@ tables.forEach((table, i) => {
                 Number(
                     table.querySelectorAll("tr td.bold")[7].innerText.trim()
                 ) - 1;
-            const ownAnswerID = options[ownAnswerIndex];
-
-            options.sort(); // doing the stuff NTA should've done
-
-            const ownAnswer = options.indexOf(ownAnswerID) + 1;
+            const ownAnswer = options[ownAnswerIndex];
 
             data[qnID] = {
                 qnType,
                 hasAnswered,
                 options,
                 ownAnswer,
-                ownAnswerID,
             };
         } else {
             data[qnID] = { qnType, hasAnswered };
         }
     } else if (qnType === "SA") {
         let hasAnswered = false;
-        const ownAnswer = document.querySelectorAll(".questionRowTbl")
-                [i].querySelector("tr:nth-of-type(5) td.bold").innerText
-        
+        const ownAnswer = document
+            .querySelectorAll(".questionRowTbl")
+            [i].querySelector("tr:nth-of-type(5) td.bold").innerText;
+
         if (ownAnswer !== "--") {
             hasAnswered = true;
         }
 
         if (hasAnswered) {
-
             data[qnID] = {
                 qnType,
                 hasAnswered,
