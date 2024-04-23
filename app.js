@@ -46,6 +46,7 @@ async function compareAnswers(user, shift) {
   let overallCorrect = 0;
   let overallIncorrect = 0;
   let overallSkipped = 0;
+  let overallDropped = 0;
   let errorInKeys = [];
 
   let correct = {
@@ -70,17 +71,21 @@ async function compareAnswers(user, shift) {
       if (user[key]["hasAnswered"]) {
         const ownAns = Number(`${user[key].ownAnswer}`.trim());
         console.log(ownAns, ntaAns);
-        if (ntaAns === ownAns) {
-          overallCorrect += 1;
-          correct[subject] += 1;
+        if (ntaAns === "DROP") {
+          overallDropped += 1;
         } else {
-          overallIncorrect += 1;
-          incorrect[subject] += 1;
-          incorrectArray.push({
-            qnID: key,
-            ownAns,
-            ntaAns,
-          });
+          if (ntaAns === ownAns) {
+            overallCorrect += 1;
+            correct[subject] += 1;
+          } else {
+            overallIncorrect += 1;
+            incorrect[subject] += 1;
+            incorrectArray.push({
+              qnID: key,
+              ownAns,
+              ntaAns,
+            });
+          }
         }
       } else {
         overallSkipped += 1;
@@ -91,28 +96,42 @@ async function compareAnswers(user, shift) {
     alert("Error in keys:\n" + errorInKeys.toString());
     errorInKeys = [];
   }
-  generateScorecard(overallCorrect, overallIncorrect, shift, [
+  generateScorecard(overallCorrect, overallIncorrect, overallDropped, shift, [
     correct,
     incorrect,
     incorrectArray,
   ]);
 }
 
-function generateScorecard(overallCorrect, overallIncorrect, shift, allData) {
+function generateScorecard(
+  overallCorrect,
+  overallIncorrect,
+  overallDropped,
+  shift,
+  allData
+) {
   const resultDiv = document.getElementById("result");
   const shiftEl = resultDiv.querySelector(".shift span");
   const scoreEl = resultDiv.querySelector(".score span");
   const attemptedEl = resultDiv.querySelector("#stats .attempted");
   const correctEl = resultDiv.querySelector("#stats .correct");
   const incorrectEl = resultDiv.querySelector("#stats .incorrect");
+  const droppedEl = resultDiv.querySelector("#stats .dropped");
   const totalScoreEl = resultDiv.querySelector("#stats .score");
 
+  const finalScore = calculateScore(
+    overallCorrect,
+    overallIncorrect,
+    overallDropped
+  );
+
   shiftEl.innerText = shift;
-  scoreEl.innerText = calculateScore(overallCorrect, overallIncorrect);
+  scoreEl.innerText = finalScore;
   attemptedEl.innerText = overallCorrect + overallIncorrect;
   correctEl.innerText = overallCorrect;
   incorrectEl.innerText = overallIncorrect;
-  totalScoreEl.innerText = calculateScore(overallCorrect, overallIncorrect);
+  droppedEl.innerText = overallDropped;
+  totalScoreEl.innerText = finalScore;
 
   const subjects = {
     maths: 0,
@@ -142,8 +161,9 @@ function generateScorecard(overallCorrect, overallIncorrect, shift, allData) {
   });
 }
 
-function calculateScore(correct, incorrect) {
-  return correct * 4 - incorrect;
+function calculateScore(correct, incorrect, dropped) {
+  if (!dropped) dropped = 0;
+  return (correct + dropped) * 4 - incorrect;
 }
 
 function copyScript() {
